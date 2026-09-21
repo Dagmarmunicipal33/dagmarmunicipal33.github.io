@@ -1,22 +1,26 @@
-name: Build live demos into portfolio
+name: Deploy portfolio and live demos
 
 on:
   push:
     branches: ["main"]
-    paths-ignore:
-      - "demos/poi-editor/**"
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
 concurrency:
-  group: "build-live-demos"
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
-  build-poi-demo:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout portfolio
         uses: actions/checkout@v4
@@ -41,17 +45,20 @@ jobs:
           npm install --no-audit --no-fund
           npm run build -- --base-href /demos/poi-editor/
 
-      - name: Replace live demo files
+      - name: Copy POI editor into portfolio
         run: |
           rm -rf demos/poi-editor
           mkdir -p demos/poi-editor
           cp -R poi-editor/dist/angular-maplibre-poi-editor/browser/. demos/poi-editor/
 
-      - name: Commit live demo
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add demos/poi-editor
-          git diff --cached --quiet && exit 0
-          git commit -m "chore: update live POI editor demo [skip ci]"
-          git push
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
