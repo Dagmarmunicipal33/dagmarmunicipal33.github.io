@@ -42,7 +42,7 @@ The site includes:
 
 ## Contact
 
-- LinkedIn — https://www.linkedin.com/in/gustavo-espitia-melendez/
+- LinkedIn — https://www.linkedin.com/in/gustavoeespitiamel%C3%A9ndez/
 - GitHub — https://github.com/gespitia
 
 ## GitHub Pages
