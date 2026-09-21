@@ -40,7 +40,7 @@ jobs:
       - name: Install and build POI editor
         working-directory: poi-editor
         run: |
-          npm ci
+          npm install --no-audit --no-fund
           npm run build -- --base-href /demos/poi-editor/
 
       - name: Assemble site
