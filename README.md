@@ -4,8 +4,9 @@ Personal portfolio for **Gustavo Espitia**, Senior Frontend Engineer.
 
 ## Positioning
 
-The site is intentionally focused on verifiable professional strengths:
+The site is focused on verifiable professional strengths:
 
+- 10+ years of frontend engineering experience
 - Angular and TypeScript
 - Frontend architecture
 - Design systems
@@ -14,26 +15,38 @@ The site is intentionally focused on verifiable professional strengths:
 - Reactive state management
 - Technical leadership and mentoring
 
-It does **not** publish confidential employer/client information or private product experiments.
+It intentionally avoids confidential employer/client information and private product experiments.
+
+## Languages
+
+- English: `/`
+- Spanish: `/es/`
+
+Both versions are static HTML for better indexing and share the same responsive CSS.
+
+## SEO
+
+The site includes:
+
+- Semantic HTML and descriptive headings
+- Canonical URL and `hreflang` for English/Spanish
+- Open Graph and Twitter metadata
+- JSON-LD `Person` structured data
+- `robots.txt` and `sitemap.xml`
+- Descriptive page title, meta description and keywords
 
 ## Public work
 
-- [Angular MapLibre POI Editor](https://github.com/gespitia/angular-maplibre-poi-editor)
-- [TalentBinder](https://github.com/gespitia/talent-binder)
+- Angular MapLibre POI Editor — https://github.com/gespitia/angular-maplibre-poi-editor
+- TalentBinder — https://github.com/gespitia/talent-binder
 
-## Stack
+## Contact
 
-This portfolio is deliberately simple: semantic HTML, modern CSS and no build step.
-
-That makes it fast, easy to maintain and suitable for GitHub Pages.
+- LinkedIn — https://www.linkedin.com/in/gustavo-espitia-melendez/
+- GitHub — https://github.com/gespitia
 
 ## GitHub Pages
 
 Repository: https://github.com/gespitia/gespitia.github.io
 
-If Pages is not enabled yet, open the repository's **Settings → Pages** and publish the **main** branch from the repository root.
-
-## Contact
-
-- LinkedIn: https://www.linkedin.com/in/gustavo-espitia-melendez/
-- GitHub: https://github.com/gespitia
+Publish the `main` branch from the repository root in **Settings → Pages**.
