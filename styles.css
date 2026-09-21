@@ -287,6 +287,17 @@ nav a:hover,.language-switch a:hover{color:var(--ink)}
 }
 .build:not(.featured) h3{font-size:1.85rem}
 .build p{color:var(--muted);font-size:.8rem;margin:0 0 9px}
+.build-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto}
+.build-actions a{
+  display:inline-flex;align-items:center;
+  min-height:34px;padding:0 10px;
+  border:1px solid var(--line);
+  font:500 .61rem "DM Mono",monospace;
+  color:var(--accent);
+  transition:background .2s ease,border-color .2s ease,color .2s ease;
+}
+.build-actions a:first-child{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.build-actions a:hover{border-color:var(--accent);background:var(--accent);color:#fff}
 .build b{
   font:500 .61rem "DM Mono",monospace;
   color:var(--accent);
