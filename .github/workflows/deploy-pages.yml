@@ -1,29 +1,27 @@
-name: Deploy portfolio + live demos
+name: Build live demos into portfolio
 
 on:
   push:
     branches: ["main"]
+    paths-ignore:
+      - "demos/poi-editor/**"
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: "portfolio-demos"
+  group: "build-live-demos"
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-poi-demo:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout portfolio
         uses: actions/checkout@v4
-        with:
-          path: portfolio
 
-      - name: Checkout POI editor demo
+      - name: Checkout POI editor
         uses: actions/checkout@v4
         with:
           repository: gespitia/angular-maplibre-poi-editor
@@ -37,34 +35,23 @@ jobs:
           cache: npm
           cache-dependency-path: poi-editor/package-lock.json
 
-      - name: Install and build POI editor
+      - name: Build POI editor
         working-directory: poi-editor
         run: |
           npm install --no-audit --no-fund
           npm run build -- --base-href /demos/poi-editor/
 
-      - name: Assemble site
+      - name: Replace live demo files
         run: |
-          mkdir -p _site/demos/poi-editor
-          cp -R portfolio/. _site/
-          rm -rf _site/.git _site/.github
-          cp -R poi-editor/dist/angular-maplibre-poi-editor/browser/. _site/demos/poi-editor/
+          rm -rf demos/poi-editor
+          mkdir -p demos/poi-editor
+          cp -R poi-editor/dist/angular-maplibre-poi-editor/browser/. demos/poi-editor/
 
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Commit live demo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add demos/poi-editor
+          git diff --cached --quiet && exit 0
+          git commit -m "chore: update live POI editor demo [skip ci]"
+          git push
