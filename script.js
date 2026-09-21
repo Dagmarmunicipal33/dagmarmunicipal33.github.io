@@ -1,0 +1,1 @@
+document.addEventListener("DOMContentLoaded",()=>{const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll(".cap,.build,.experience-list article,.proof-strip div").forEach((e,i)=>{e.style.transitionDelay=Math.min(i*45,250)+"ms";io.observe(e)});});
