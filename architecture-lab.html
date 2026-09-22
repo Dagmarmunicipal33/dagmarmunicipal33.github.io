@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Architecture Lab | Gustavo Espitia</title>
+<meta name="description" content="Interactive product architecture case study by Gustavo Espitia: multi-business SaaS, microfrontends, design systems, tenant isolation and AI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#e7e9e5;--paper:#f7f8f5;--ink:#27302d;--muted:#68726d;--line:#d5dad5;--accent:#766f9f;--soft:#918ab5;--green:#77947f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Space Grotesk",sans-serif;line-height:1.65}a{color:inherit;text-decoration:none}.wrap{width:min(calc(100% - 40px),1080px);margin:auto}
+header{border-bottom:1px solid var(--line);padding:18px 0;position:sticky;top:0;background:rgba(231,233,229,.94);backdrop-filter:blur(8px);z-index:10}.nav{display:flex;justify-content:space-between;align-items:center}.mono,.eyebrow,.tag{font:500 .62rem "DM Mono",monospace;text-transform:uppercase;letter-spacing:.08em}.brand{font-weight:600}.back{color:var(--muted)}
+.hero{padding:85px 0 70px;border-bottom:1px solid var(--line)}.eyebrow{color:var(--accent);margin-bottom:18px}.hero h1{font-size:clamp(3rem,7vw,6rem);line-height:.98;letter-spacing:-.065em;max-width:850px;margin:0 0 25px;font-weight:600}.hero h1 span{color:var(--accent)}.hero p{max-width:680px;color:var(--muted);font-size:1.05rem}.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:25px}.tag{border:1px solid var(--line);padding:6px 9px;border-radius:999px;color:var(--muted)}
+section{padding:72px 0;border-bottom:1px solid var(--line)}h2{font-size:2.3rem;line-height:1.05;letter-spacing:-.05em;margin:0 0 30px}h2 span{color:var(--accent)}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{background:var(--paper);border:1px solid var(--line);padding:26px}.card h3{margin:5px 0 10px;font-size:1.15rem}.card p{margin:0;color:var(--muted);font-size:.88rem}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:30px}.node{border:1px solid var(--line);background:var(--paper);padding:18px 12px;min-height:105px}.node b{display:block;font-size:.82rem}.node small{color:var(--muted);font-size:.72rem}.arrow{display:none}
+.arch{background:var(--paper);border:1px solid var(--line);padding:30px;margin-top:30px}.arch-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0}.box{border:1px solid #c9cfca;padding:18px;background:#edf0ec}.box strong{display:block;font-size:.82rem}.box small{color:var(--muted);font-size:.7rem}.center{display:flex;justify-content:center;margin:10px}.down{font:1.2rem "DM Mono";color:var(--accent)}
+.adr{border-top:1px solid var(--line)}details{border-bottom:1px solid var(--line);padding:18px 0}summary{cursor:pointer;font-weight:600}details p{color:var(--muted);max-width:760px}.decision{font:500 .6rem "DM Mono";color:var(--accent);margin-right:10px}
+.ai{background:#e1e4df}.prompt{display:flex;gap:10px;margin-top:25px}.prompt input{flex:1;border:1px solid var(--line);background:var(--paper);padding:13px 14px;font:inherit;color:var(--ink)}button{border:1px solid var(--ink);background:var(--ink);color:var(--bg);padding:0 18px;font:500 .65rem "DM Mono";cursor:pointer}.answer{margin-top:18px;border-left:2px solid var(--accent);padding:15px 18px;background:rgba(247,248,245,.65);min-height:72px;color:var(--muted)}.answer strong{color:var(--ink)}
+footer{padding:30px 0 55px;color:var(--muted);font-size:.75rem}
+@media(max-width:760px){.wrap{width:min(calc(100% - 30px),1080px)}.hero{padding:65px 0}.grid,.flow,.arch-row{grid-template-columns:1fr}.arch-row{margin:0}.box{margin-bottom:8px}.prompt{flex-direction:column}button{min-height:44px}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav"><a class="brand" href="./">GE<span style="color:var(--accent)">·</span> Architecture Lab</a><a class="back mono" href="./">← Portfolio</a></div></header>
+<main>
+<div class="wrap hero">
+<div class="eyebrow">LIVE BUILD / 04 · PRODUCT + ARCHITECTURE + AI</div>
+<h1>One owner.<br><span>Multiple businesses.</span><br>One system.</h1>
+<p>A product architecture exercise for a multi-business SaaS: one workspace, isolated business data, independent product modules and an AI layer that can reason over controlled business context.</p>
+<div class="tags"><span class="tag">Product thinking</span><span class="tag">Microfrontends</span><span class="tag">Design System</span><span class="tag">Multi-tenancy</span><span class="tag">PostgreSQL / RLS</span><span class="tag">AI</span></div>
+</div>
+<section><div class="wrap"><div class="eyebrow">01 / THE PROBLEM</div><h2>Start with the problem.<br><span>Not the technology.</span></h2><div class="grid">
+<div class="card"><div class="mono">USER</div><h3>Owner of several businesses</h3><p>Needs to switch between businesses without maintaining disconnected systems, accounts and permission models.</p></div>
+<div class="card"><div class="mono">CONSTRAINT</div><h3>Isolation without duplication</h3><p>Each business must have its own data and permissions while the platform remains one coherent product.</p></div>
+</div>
+<div class="flow"><div class="node"><b>Problem</b><small>Multiple businesses</small></div><div class="node"><b>Product</b><small>One workspace</small></div><div class="node"><b>Architecture</b><small>Modular platform</small></div><div class="node"><b>AI</b><small>Controlled context</small></div><div class="node"><b>Outcome</b><small>Useful decisions</small></div></div>
+</div></section>
+<section><div class="wrap"><div class="eyebrow">02 / PRODUCT MODEL</div><h2>A workspace that changes<br><span>context, not identity.</span></h2><div class="grid">
+<div class="card"><div class="mono">GLOBAL</div><h3>Owner workspace</h3><p>One identity, one navigation model, one place to switch the active business.</p></div>
+<div class="card"><div class="mono">TENANT</div><h3>Business context</h3><p>Customers, products, sales and reports are evaluated against the active business context.</p></div>
+<div class="card"><div class="mono">MVP</div><h3>Four modules</h3><p>Dashboard · Customers · Products · Reports. Enough to demonstrate the architecture without pretending to be a finished ERP.</p></div>
+<div class="card"><div class="mono">PROGRESSIVE</div><h3>Reveal complexity only when needed</h3><p>The interface keeps one primary action visible and exposes deeper system detail when the user asks for it.</p></div>
+</div></div></section>
+<section><div class="wrap"><div class="eyebrow">03 / SYSTEM ARCHITECTURE</div><h2>Boundaries make<br><span>complexity manageable.</span></h2>
+<div class="arch">
+<div class="arch-row"><div class="box"><strong>App Shell</strong><small>identity · navigation · active tenant</small></div><div class="box"><strong>Design System</strong><small>tokens · components · patterns</small></div><div class="box"><strong>AI Assistant</strong><small>retrieval · context · answers</small></div><div class="box"><strong>Auth</strong><small>identity · roles · permissions</small></div></div>
+<div class="center"><span class="down">↓</span></div>
+<div class="arch-row"><div class="box"><strong>Dashboard MF</strong><small>business overview</small></div><div class="box"><strong>Customers MF</strong><small>customer workflows</small></div><div class="box"><strong>Products MF</strong><small>catalog workflows</small></div><div class="box"><strong>Reports MF</strong><small>business insights</small></div></div>
+<div class="center"><span class="down">↓</span></div>
+<div class="arch-row"><div class="box"><strong>Backend Core</strong><small>API · domain rules · audit</small></div><div class="box"><strong>PostgreSQL</strong><small>tenant_id + RLS</small></div><div class="box"><strong>AI Retrieval</strong><small>controlled business context</small></div><div class="box"><strong>Observability</strong><small>logs · metrics · traces</small></div></div>
+</div></div></section>
+<section><div class="wrap"><div class="eyebrow">04 / ARCHITECTURE DECISIONS</div><h2>Every technical choice<br><span>has a reason.</span></h2><div class="adr">
+<details open><summary><span class="decision">ADR-001</span> Why microfrontends?</summary><p>Business modules can evolve independently while the App Shell owns cross-cutting concerns. This is justified only when team boundaries and release independence create real value.</p></details>
+<details><summary><span class="decision">ADR-002</span> Why a shared Design System?</summary><p>Independent modules should still feel like one product. Shared Web Components and tokens reduce visual drift and duplicate UI decisions.</p></details>
+<details><summary><span class="decision">ADR-003</span> Why tenant isolation at the database layer?</summary><p>Application checks are necessary but not the only defense. PostgreSQL Row-Level Security provides an additional boundary around tenant-scoped data.</p></details>
+<details><summary><span class="decision">ADR-004</span> Why controlled AI context?</summary><p>The assistant should answer from permitted business context rather than inventing access. Retrieval and authorization remain architectural concerns, not just prompt concerns.</p></details>
+</div></div></section>
+<section class="ai"><div class="wrap"><div class="eyebrow">05 / AI LAYER</div><h2>Ask the architecture<br><span>why.</span></h2><p style="color:var(--muted);max-width:680px">This small deterministic interaction simulates the assistant layer. It only answers questions that map to decisions represented in this architecture.</p><div class="prompt"><input id="q" placeholder="Why use tenant isolation?"><button onclick="ask()">ASK</button></div><div class="answer" id="a">Try: “Why use microfrontends?”, “Why PostgreSQL RLS?”, or “Why controlled AI context?”</div></div></section>
+</main>
+<footer><div class="wrap">Gustavo Espitia · Architecture Lab · A product architecture exercise, not a production SaaS.</div></footer>
+<script>
+const answers={
+"microfrontends":"<strong>Microfrontends:</strong> they create independent module boundaries and can support independent delivery when team or release boundaries justify the complexity.",
+"tenant isolation":"<strong>Tenant isolation:</strong> each business is scoped by tenant context, with database-level Row-Level Security adding a defense layer around tenant data.",
+"postgresql rls":"<strong>PostgreSQL RLS:</strong> it moves part of the tenant boundary into the database, reducing reliance on every application query remembering the same filter.",
+"controlled ai":"<strong>Controlled AI context:</strong> the assistant should retrieve only permitted business context. Authorization and retrieval are part of the architecture.",
+"ai context":"<strong>Controlled AI context:</strong> the assistant should retrieve only permitted business context. Authorization and retrieval are part of the architecture."
+};
+function ask(){const q=document.getElementById('q').value.toLowerCase();let key=Object.keys(answers).find(k=>q.includes(k));document.getElementById('a').innerHTML=key?answers[key]:"<strong>No architecture decision found.</strong> Try a question about microfrontends, tenant isolation, PostgreSQL RLS or controlled AI context."}
+</script>
+</body></html>
