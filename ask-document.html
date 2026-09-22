@@ -67,5 +67,25 @@ const lead=hits[0].text;
 answer.innerHTML='<h2>ANSWER</h2><div class="answer-text">'+lead.replace(/(microfrontends|Web Components|PostgreSQL row-level security|retrieval-augmented pattern|backend)/gi,"<strong>$1</strong>")+'</div><div class="sources">'+hits.map(h=>'<div class="source"><b>Page '+h.page+' · '+h.title+'</b><span>Retrieved passage</span></div>').join("")+'</div>'}
 ask.onclick=()=>answerQuestion(q.value);q.addEventListener("keydown",e=>{if(e.key==="Enter")answerQuestion(q.value)});document.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{q.value=b.dataset.q;answerQuestion(q.value)});
 </script>
-</body>
+<script>
+(function(){
+  const key="gespitia-language";
+  const path=location.pathname;
+  const child=true;
+  const stored=localStorage.getItem(key);
+  const current=stored||'en';
+  document.documentElement.lang=current;
+  document.querySelectorAll("[data-lang]").forEach(a=>{
+    a.classList.toggle("active",a.dataset.lang===current);
+    a.setAttribute("aria-current",a.dataset.lang===current?"true":"false");
+    a.addEventListener("click",function(){
+      localStorage.setItem(key,a.dataset.lang);
+      if(child){
+        const target=a.dataset.lang==="es"?"es/":"./";
+        a.href=target;
+      }
+    });
+  });
+})();
+</script></body>
 </html>
