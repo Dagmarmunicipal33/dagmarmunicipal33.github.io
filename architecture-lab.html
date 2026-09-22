@@ -22,9 +22,9 @@ header{height:64px;border-bottom:1px solid var(--line);background:rgba(238,240,2
 section{padding:0 0 70px}.below{display:grid;grid-template-columns:1fr 1fr;gap:14px}.below-card{border:1px solid var(--line);background:var(--paper);padding:22px}.below-card h2{margin:3px 0 10px;font-size:1.4rem}.below-card p{color:var(--muted);font-size:.78rem}
 footer{padding:0 0 50px;color:var(--muted);font-size:.7rem}
 @media(max-width:800px){.app{grid-template-columns:1fr}.sidebar{border-right:0;border-bottom:1px solid var(--line)}.metrics{grid-template-columns:1fr 1fr}.ai-box,.permissions,.below{grid-template-columns:1fr}.arch-mini{grid-template-columns:1fr 1fr}.main{padding:18px}.navitem{display:inline-block;width:auto}.side-note{display:none}}
-.language-switch{display:flex;align-items:center;gap:6px;font:500 .62rem "DM Mono",monospace;letter-spacing:.08em;text-transform:uppercase;margin-left:16px}.language-switch a{color:var(--muted);text-decoration:none;padding:4px 2px}.language-switch a.active{color:var(--ink);font-weight:700}.language-switch span{color:var(--line)}@media(max-width:700px){.language-switch{margin-left:8px}}</style></head>
+.language-switch{display:flex;align-items:center;gap:6px;font:500 .62rem "DM Mono",monospace;letter-spacing:.08em;text-transform:uppercase;margin-left:16px}.language-switch a{color:var(--muted);text-decoration:none;padding:4px 2px}.language-switch a.active{color:var(--ink);font-weight:700}.language-switch span{color:var(--line)}@media(max-width:700px){.language-switch{margin-left:8px}}.header-actions{display:flex;align-items:center;gap:18px}.language-switch{display:flex;align-items:center;gap:6px;font:500 .62rem "DM Mono",monospace;letter-spacing:.08em;text-transform:uppercase}.language-switch a{color:var(--muted);text-decoration:none;padding:4px 2px}.language-switch a.active{color:var(--ink);font-weight:700}.language-switch span{color:var(--line)}@media(max-width:700px){.header-actions{gap:8px}.back{font-size:11px}.language-switch{font-size:.56rem}}</style></head>
 <body>
-<header><div class="wrap nav"><a class="brand" href="./">GE<span style="color:var(--accent)">·</span> Multi-Business Workspace</a><a class="back mono" href="./">← Portfolio</a></div><div class="language-switch" aria-label="Language"><a data-lang="en" href="index.html">EN</a><span>/</span><a data-lang="es" href="es/index.html">ES</a></div></header>
+<header><a class="brand" href="./">GE<span style="color:var(--accent)">·</span> Multi-Business Workspace</a><div class="header-actions"><a class="back" href="./">← Back to portfolio</a><div class="language-switch" aria-label="Language"><a data-lang="en" href="./">EN</a><span>/</span><a data-lang="es" href="es/">ES</a></div></div></header>
 <main class="wrap">
 <div class="hero"><div class="eyebrow">LIVE BUILD / 04 · PRODUCT + ARCHITECTURE + AI</div><h1>One owner.<br><span>Multiple businesses.</span><br>One workspace.</h1><p>A functional browser demo showing how product decisions, tenant context, modular frontend architecture, permissions and controlled AI can work together.</p></div>
 
@@ -69,22 +69,13 @@ function filterRows(q,id){document.querySelectorAll("#"+id+" tr").forEach(r=>r.s
 function askAI(){const q=document.getElementById("aiInput").value.toLowerCase(),d=data[document.getElementById("tenant").value];let h=q.includes("revenue")?"Revenue is up 12.4% this month. The demo attributes the change to higher order volume and repeat customers.":q.includes("microfrontend")?"Microfrontends isolate business modules so teams can evolve workflows independently while the App Shell keeps shared identity and tenant context consistent.":q.includes("permission")?"Permissions are evaluated against the active business context. Actions that the current role cannot perform are not exposed in the interface.":q.includes("tenant")?"Tenant isolation keeps each business scoped to its own context. PostgreSQL RLS is the database-level defense layer in the proposed production architecture.":q.includes("ai")?"The AI layer receives only authorized business context before retrieval and generation. This demo simulates that flow deterministically.":"I can answer questions about revenue, microfrontends, permissions, tenant isolation or AI context.";aiAnswer.innerHTML='<div class="label">GROUNDED ANSWER · '+d.name.toUpperCase()+'</div><h3>'+h+'</h3><div class="source">Source context: active tenant · dashboard data · architecture rules</div>'}
 </script><script>
 (function(){
-  const key="gespitia-language";
-  const path=location.pathname;
-  const child=true;
-  const stored=localStorage.getItem(key);
-  const current=stored||'en';
-  document.documentElement.lang=current;
-  document.querySelectorAll("[data-lang]").forEach(a=>{
-    a.classList.toggle("active",a.dataset.lang===current);
-    a.setAttribute("aria-current",a.dataset.lang===current?"true":"false");
-    a.addEventListener("click",function(){
-      localStorage.setItem(key,a.dataset.lang);
-      if(child){
-        const target=a.dataset.lang==="es"?"es/":"./";
-        a.href=target;
-      }
-    });
-  });
+ const key="gespitia-language";
+ const current=localStorage.getItem(key)||"en";
+ document.documentElement.lang=current;
+ document.querySelectorAll("[data-lang]").forEach(a=>{
+  a.classList.toggle("active",a.dataset.lang===current);
+  a.setAttribute("aria-current",a.dataset.lang===current?"true":"false");
+  a.addEventListener("click",()=>localStorage.setItem(key,a.dataset.lang));
+ });
 })();
 </script></body></html>
