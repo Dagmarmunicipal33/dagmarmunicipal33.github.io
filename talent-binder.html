@@ -17,10 +17,10 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:14px 18p
 .actions button{padding:7px 10px;font-size:12px}.empty{padding:40px;text-align:center;color:var(--muted)}
 dialog{border:0;border-radius:14px;width:min(560px,calc(100% - 30px));padding:0;box-shadow:0 20px 70px rgba(0,0,0,.22)}dialog::backdrop{background:rgba(20,25,35,.35)}.modal{padding:24px}.modal h2{margin:0 0 18px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}.field input,.field select{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;font:inherit}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:22px}
 @media(max-width:720px){.toolbar{flex-direction:column;align-items:stretch}.grid{grid-template-columns:1fr}table{min-width:760px}.card{overflow:auto}h1{font-size:27px}}
-.language-switch{display:flex;align-items:center;gap:6px;font:500 .62rem "DM Mono",monospace;letter-spacing:.08em;text-transform:uppercase;margin-left:16px}.language-switch a{color:var(--muted);text-decoration:none;padding:4px 2px}.language-switch a.active{color:var(--ink);font-weight:700}.language-switch span{color:var(--line)}@media(max-width:700px){.language-switch{margin-left:8px}}</style>
+.language-switch{display:flex;align-items:center;gap:6px;font:500 .62rem "DM Mono",monospace;letter-spacing:.08em;text-transform:uppercase;margin-left:16px}.language-switch a{color:var(--muted);text-decoration:none;padding:4px 2px}.language-switch a.active{color:var(--ink);font-weight:700}.language-switch span{color:var(--line)}@media(max-width:700px){.language-switch{margin-left:8px}}.header-actions{display:flex;align-items:center;gap:18px}.language-switch{display:flex;align-items:center;gap:6px;font:500 .62rem "DM Mono",monospace;letter-spacing:.08em;text-transform:uppercase}.language-switch a{color:var(--muted);text-decoration:none;padding:4px 2px}.language-switch a.active{color:var(--ink);font-weight:700}.language-switch span{color:var(--line)}@media(max-width:700px){.header-actions{gap:8px}.back{font-size:11px}.language-switch{font-size:.56rem}}</style>
 </head>
 <body>
-<header><div class="brand">Talent<span>Binder</span></div><a class="back" href="./">← Back to portfolio</a><div class="language-switch" aria-label="Language"><a data-lang="en" href="index.html">EN</a><span>/</span><a data-lang="es" href="es/index.html">ES</a></div></header>
+<header><a class="brand" href="./">GE<span style="color:var(--accent)">·</span> TalentBinder</a><div class="header-actions"><a class="back" href="./">← Back to portfolio</a><div class="language-switch" aria-label="Language"><a data-lang="en" href="./">EN</a><span>/</span><a data-lang="es" href="es/">ES</a></div></div></header>
 <main>
 <div class="eyebrow">Engineering Lab · 03</div><h1>Employee management</h1>
 <p class="intro">A public, browser-only adaptation of my Angular 18 TalentBinder project. Explore search, employee creation, editing and removal without a backend dependency.</p>
@@ -56,22 +56,13 @@ document.querySelector("#add").onclick=()=>{editing=null;openForm()};document.qu
 form.onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(form));if(editing)Object.assign(editing,d);else employees.unshift({id:Date.now(),...d});dlg.close();render()};render();
 </script><script>
 (function(){
-  const key="gespitia-language";
-  const path=location.pathname;
-  const child=true;
-  const stored=localStorage.getItem(key);
-  const current=stored||'en';
-  document.documentElement.lang=current;
-  document.querySelectorAll("[data-lang]").forEach(a=>{
-    a.classList.toggle("active",a.dataset.lang===current);
-    a.setAttribute("aria-current",a.dataset.lang===current?"true":"false");
-    a.addEventListener("click",function(){
-      localStorage.setItem(key,a.dataset.lang);
-      if(child){
-        const target=a.dataset.lang==="es"?"es/":"./";
-        a.href=target;
-      }
-    });
-  });
+ const key="gespitia-language";
+ const current=localStorage.getItem(key)||"en";
+ document.documentElement.lang=current;
+ document.querySelectorAll("[data-lang]").forEach(a=>{
+  a.classList.toggle("active",a.dataset.lang===current);
+  a.setAttribute("aria-current",a.dataset.lang===current?"true":"false");
+  a.addEventListener("click",()=>localStorage.setItem(key,a.dataset.lang));
+ });
 })();
 </script></body></html>
